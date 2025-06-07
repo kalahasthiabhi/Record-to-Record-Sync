@@ -24,4 +24,9 @@ public class RateLimiterConfig {
     public static int getRateFor(String crm) {
         return crmRateMap.getOrDefault(crm, 1); // Default fallback
     }
+
+    public static void overrideRate(String provider, int rate) {
+        crmRateMap.put(provider, rate);
+    }
+
 }

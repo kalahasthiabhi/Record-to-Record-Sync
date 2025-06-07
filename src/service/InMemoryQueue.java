@@ -14,4 +14,9 @@ public class InMemoryQueue {
     public SyncTask poll() {
         return queue.poll();
     }
+
+    public int size() {
+        return queue.size();
+    }
+
 }

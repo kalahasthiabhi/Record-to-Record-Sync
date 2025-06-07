@@ -17,7 +17,7 @@ public class QueueDispatcher {
 
     public QueueDispatcher() {
         crmQueueMap.put("finacle", new InMemoryQueue());
-        externalAPIClientMap.put("finacle", new ExternalApiClient("finacle", RateLimiterConfig.getRateFor("finacle")));
+        externalAPIClientMap.put("finacle", createClient("finacle"));
 
     }
 
@@ -50,4 +50,13 @@ public class QueueDispatcher {
             crmQueueMap.get("finacle").offer(task);
         }
     }
+
+    public InMemoryQueue getQueueFor(String provider) {
+        return crmQueueMap.get(provider);
+    }
+
+    protected ExternalApiClient createClient(String provider) {
+        return new ExternalApiClient(provider, RateLimiterConfig.getRateFor(provider));
+    }
+
 }
