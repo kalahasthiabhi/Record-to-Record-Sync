@@ -1,3 +1,7 @@
+package service;
+
+import model.SyncTask;
+
 import java.util.concurrent.*;
 
 public class InMemoryQueue {

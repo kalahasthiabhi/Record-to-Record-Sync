@@ -1,10 +1,12 @@
+package model;
+
 public class SyncTask {
     public final String crm;
     public final String recordId;
     public final String action;
-    public final String payload;
+    public final ExternalRecord payload;
 
-    public SyncTask(String crm, String recordId, String action, String payload) {
+    public SyncTask(String crm, String recordId, String action, ExternalRecord payload) {
         this.crm = crm;
         this.recordId = recordId;
         this.action = action;
@@ -13,7 +15,7 @@ public class SyncTask {
 
     @Override
     public String toString() {
-        return "SyncTask{" +
+        return "model.SyncTask{" +
                 "crm='" + crm + '\'' +
                 ", recordId='" + recordId + '\'' +
                 ", action='" + action + '\'' +

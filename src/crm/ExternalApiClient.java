@@ -1,3 +1,8 @@
+package crm;
+
+import model.SyncTask;
+import service.RateLimiter;
+
 import java.util.Random;
 
 public class ExternalApiClient {

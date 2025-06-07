@@ -1,3 +1,5 @@
+package service;
+
 public class RateLimiter {
     private final int maxTokens;
     private double currentTokens;
@@ -12,8 +14,8 @@ public class RateLimiter {
 
 
     /**
-     * Currently, each ExternalApiClient has its own RateLimiter instance.This is safe as long as the client is used by a single thread.
-     * However, if multiple threads share the same ExternalApiClient, then this method must remain synchronized to ensure thread safety
+     * Currently, each crm.ExternalApiClient has its own service.RateLimiter instance.This is safe as long as the client is used by a single thread.
+     * However, if multiple threads share the same crm.ExternalApiClient, then this method must remain synchronized to ensure thread safety
      */
     public boolean tryAcquire() {
         refill();

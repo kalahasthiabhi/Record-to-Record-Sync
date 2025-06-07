@@ -1,4 +1,9 @@
+package service;
+
 import config.RateLimiterConfig;
+import crm.ExternalApiClient;
+import model.ExternalRecord;
+import model.SyncTask;
 
 import java.util.*;
 import java.util.concurrent.Executors;
@@ -40,7 +45,8 @@ public class QueueDispatcher {
 
     private void produceMockEvents() {
         for (int i = 1; i <= 20; i++) {
-            SyncTask task = new SyncTask("finacle", "id-" + i, "update", "John Doe");
+            ExternalRecord payload = new ExternalRecord(i+"", "Abhishekh", "kalahasthiabhi30@gmail.com");
+            SyncTask task = new SyncTask("finacle", "id-" + i, "update", payload);
             crmQueueMap.get("finacle").offer(task);
         }
     }
