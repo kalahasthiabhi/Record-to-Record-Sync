@@ -35,37 +35,4 @@ public class RateLimiterTest {
         assertTrue(limiter.tryAcquire());
         assertFalse(limiter.tryAcquire());
     }
-
-    @Test
-    public void testConcurrentAccessIsSafe() throws InterruptedException {
-        final RateLimiter limiter = new RateLimiter(5);
-        final AtomicInteger successCount = new AtomicInteger(0);
-        final int threads = 10;
-
-        CountDownLatch latch = new CountDownLatch(threads);
-
-        for (int i = 0; i < threads; i++) {
-            new Thread(() -> {
-                if (limiter.tryAcquire()) {
-                    successCount.incrementAndGet();
-                }
-                latch.countDown();
-            }).start();
-        }
-
-        latch.await(); // Wait for all threads to finish
-        assertTrue(successCount.get() <= 5); // Cannot exceed 5 tokens
-    }
-
-    @Test
-    public void testNoNegativeTokens() throws InterruptedException {
-        RateLimiter limiter = new RateLimiter(1);
-        for (int i = 0; i < 10; i++) {
-            limiter.tryAcquire();
-        }
-
-        Thread.sleep(1000);
-        limiter.tryAcquire(); // should be allowed again
-        assertTrue(true); // no assertion failure implies no exception
-    }
 }

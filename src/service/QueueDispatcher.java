@@ -57,8 +57,8 @@ public class QueueDispatcher {
         }
     }
 
-    public InMemoryQueue getQueueFor(CRM crm) {
-        return crmQueueMap.get(crm);
+    public InMemoryQueue getDlqFor(CRM crm) {
+        return crmDlqMap.get(crm);
     }
 
     protected ExternalApiClient createClient(CRM crm) {
