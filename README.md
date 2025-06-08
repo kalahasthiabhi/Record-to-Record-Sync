@@ -40,13 +40,13 @@ This service simulates a real-time, rate-limited synchronization system between 
 ### 3. **QueueDispatcher**
 - Pulls records from the in-memory queue on a fixed schedule.
 - Sends tasks to the appropriate **ExternalApiClient**.
-- Re-queues tasks on failure (e.g., due to rate limit or transient error).
+- Moves tasks to DLQ on failure (e.g., due to rate limit or transient error).
 - Uses **ScheduledExecutorService** to dispatch every 200ms.
 
 ### 4. **ExternalApiClient**
 - Performs the actual sync operation.
 - Applies retry and rate limiting internally.
-- Can simulate success/failure and dead-letter queue behavior.
+- Can simulate success/failure.
 
 ## Key Considerations
 

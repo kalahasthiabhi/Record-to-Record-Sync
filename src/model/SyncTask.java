@@ -1,9 +1,10 @@
 package model;
 
 public class SyncTask {
-    public final CRM crm;
-    public final Action action;
-    public final ExternalRecord payload;
+    private final CRM crm;
+    private final Action action;
+    private final ExternalRecord payload;
+
 
     public SyncTask(CRM crm, Action action, ExternalRecord payload) {
         this.crm = crm;
@@ -14,9 +15,9 @@ public class SyncTask {
     @Override
     public String toString() {
         return "model.SyncTask{" +
-                "crm='" + crm.name()+ '\'' +
-                ", action='" + action.name() + '\'' +
-                ", payload='" + payload + '\'' +
+                "crm= " + crm.name()+ ',' +
+                ", action= " + action.name() + ',' +
+                ", payload= " + payload +
                 '}';
     }
 }

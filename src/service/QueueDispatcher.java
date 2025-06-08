@@ -14,11 +14,13 @@ import java.util.concurrent.TimeUnit;
 
 public class QueueDispatcher {
     private final Map<CRM, InMemoryQueue> crmQueueMap = new HashMap<>();
+    private final Map<CRM, InMemoryQueue> crmDlqMap = new HashMap<>();
     private final Map<CRM, ExternalApiClient> externalAPIClientMap = new HashMap<>();
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     public QueueDispatcher() {
         crmQueueMap.put(CRM.FINACLE, new InMemoryQueue());
+        crmDlqMap.put(CRM.FINACLE, new InMemoryQueue());
         externalAPIClientMap.put(CRM.FINACLE, createClient(CRM.FINACLE));
 
     }
@@ -35,12 +37,13 @@ public class QueueDispatcher {
                         ExternalApiClient client = externalAPIClientMap.get(provider);
                         boolean success = client.sync(task);
                         if (!success) {
-                            queue.offer(task); // backpressure: requeue the task
+                            crmDlqMap.get(provider).offer(task); // Move to DLQ
+                            System.err.println("SyncTask moved to DLQ after retries: " + task);
                         }
                     }
                 });
             } catch (Exception e) {
-                System.err.println("[ERROR] Exception in scheduled dispatcher: " + e.getMessage());
+                System.err.println("Exception in scheduled dispatcher: " + e.getMessage());
             }
         }, 0, 200, TimeUnit.MILLISECONDS);
     }
