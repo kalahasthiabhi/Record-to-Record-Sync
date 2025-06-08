@@ -23,27 +23,27 @@ The system must handle over **300 million synchronization requests daily**, with
 This service simulates a real-time, rate-limited synchronization system between an internal queue and an external system (e.g., CRM or financial APIs like Finacle). It uses:
 
 - In-memory queues to simulate per-provider task queues
-- A token-bucket-based `RateLimiter` to enforce API rate limits
+- A token-bucket-based **RateLimiter** to enforce API rate limits
 - A scheduled dispatcher to consume tasks and send them to external APIs
 - A retry mechanism via re-queuing failed tasks (backpressure handling)
 
 ## Key Components
 
-### 1. `RateLimiter`
+### 1. **RateLimiter**
 - Implements a token bucket pattern to control request rates.
-- One instance per `ExternalApiClient`.
+- One instance per **ExternalApiClient**.
 - Tokens are refilled based on elapsed time since last refill.
 
-### 2. `InMemoryQueue`
-- A thread-safe queue (`LinkedBlockingQueue`) used to enqueue `SyncTask`s per provider.
+### 2. **InMemoryQueue**
+- A thread-safe queue (**LinkedBlockingQueue**) used to enqueue **SyncTask**s per provider.
 
-### 3. `QueueDispatcher`
+### 3. **QueueDispatcher**
 - Pulls records from the in-memory queue on a fixed schedule.
-- Sends tasks to the appropriate `ExternalApiClient`.
+- Sends tasks to the appropriate **ExternalApiClient**.
 - Re-queues tasks on failure (e.g., due to rate limit or transient error).
-- Uses `ScheduledExecutorService` to dispatch every 200ms.
+- Uses **ScheduledExecutorService** to dispatch every 200ms.
 
-### 4. `ExternalApiClient`
+### 4. **ExternalApiClient**
 - Performs the actual sync operation.
 - Applies retry and rate limiting internally.
 - Can simulate success/failure and dead-letter queue behavior.
@@ -61,4 +61,3 @@ This service simulates a real-time, rate-limited synchronization system between 
 ### 3. Why InMemoryQueue?
 - InMemoryQueue is a simple BlockingQueue that holds the sync tasks that needs to be acted upon per external system like finacle.
 - We can use a messaging system like kafka in the actual production environment.
-
